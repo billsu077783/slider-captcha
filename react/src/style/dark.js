@@ -75,16 +75,8 @@ const darkTheme = `.scaptcha-icon-light {
   min-height: 216px;
   background-color: #1a1a1a;
   box-shadow: 0px -1px 0px -2px rgba(0, 0, 0, 0.2), 0px 2px 9px 0px rgba(0, 0, 0, 0.14), 0px 5px 9px 0px rgba(0, 0, 0, 0.15);
-  margin-top: -260px;
-  margin-left: -7px;
 }
 
-@media only screen and (max-width: 639px) {
-  .scaptcha-card-container {
-    left: 50%;
-    margin-left: -140px;
-  }
-}
 .scaptcha-card-slider-puzzle {
   margin-left: 15px;
   margin-top: 15px;
