@@ -21,6 +21,12 @@ Object.defineProperty(exports, "LoadingIcon", {
     return _loading["default"];
   }
 });
+Object.defineProperty(exports, "ReloadIcon", {
+  enumerable: true,
+  get: function get() {
+    return _reload["default"];
+  }
+});
 Object.defineProperty(exports, "SuccessIcon", {
   enumerable: true,
   get: function get() {
@@ -35,5 +41,7 @@ var _arrow = _interopRequireDefault(require("./arrow"));
 var _success = _interopRequireDefault(require("./success"));
 
 var _failure = _interopRequireDefault(require("./failure"));
+
+var _reload = _interopRequireDefault(require("./reload"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }

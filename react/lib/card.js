@@ -34,7 +34,9 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var Card = function Card(_ref) {
-  var text = _ref.text,
+  var refresh = _ref.refresh,
+      refreshEnd = _ref.refreshEnd,
+      text = _ref.text,
       fetchCaptcha = _ref.fetchCaptcha,
       submitResponse = _ref.submitResponse;
 
@@ -82,12 +84,16 @@ var Card = function Card(_ref) {
   };
 
   (0, _react.useEffect)(function () {
-    isMounted.current = true;
-    refreshCaptcha();
+    if (refresh) {
+      isMounted.current = true;
+      refreshCaptcha();
+    }
+
     return function () {
       isMounted.current = false;
+      refreshEnd();
     };
-  }, []);
+  }, [refresh]);
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: "scaptcha-card-container scaptcha-card-element"
   }, captcha ? /*#__PURE__*/_react["default"].createElement(_challenge["default"], {
@@ -101,6 +107,8 @@ var Card = function Card(_ref) {
 };
 
 Card.propTypes = {
+  refresh: _propTypes["default"].bool.isRequired,
+  refreshEnd: _propTypes["default"].func.isRequired,
   fetchCaptcha: _propTypes["default"].func.isRequired,
   submitResponse: _propTypes["default"].func.isRequired,
   text: _propTypes["default"].shape({
