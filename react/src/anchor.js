@@ -4,14 +4,15 @@ import Card from './card';
 import { SuccessIcon } from './icons';
 
 const Anchor = ({
-  text,
-  fetchCaptcha,
-  submitResponse,
-  verified,
+ text, fetchCaptcha, submitResponse, verified,
 }) => {
   const [open, setOpen] = useState(false);
-  const handleClose = () => { setOpen(false); };
-  const handleOpen = () => { setOpen(true); };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleOpen = () => {
+    setOpen(true);
+  };
   const handleKey = (e) => {
     if (e.code === 'Enter' || e.code === 'Space') {
       setOpen(true);
@@ -28,12 +29,12 @@ const Anchor = ({
         <button
           suppressHydrationWarning
           type="button"
-          className={`scaptcha-anchor-checkbox ${!verified && 'scaptcha-anchor-checkbox-default'} scaptcha-anchor-element`}
+          className={`scaptcha-anchor-checkbox ${
+            !verified && 'scaptcha-anchor-checkbox-default'
+          } scaptcha-anchor-element`}
           onKeyUp={handleKey}
         >
-          {verified && (
-            <SuccessIcon />
-          )}
+          {verified && <SuccessIcon />}
         </button>
         <div className="scaptcha-anchor-label scaptcha-anchor-element">
           {text.anchor}

@@ -4,7 +4,7 @@ import Anchor from './anchor';
 import Theme from './theme';
 
 const fetchCaptcha = (create) => () =>
-  (create instanceof Function)
+  create instanceof Function
     ? create() // Use provided promise for getting background and slider
     : fetch(create, {
         // Use create as API URL for fetch
@@ -13,7 +13,7 @@ const fetchCaptcha = (create) => () =>
       }).then((message) => message.json());
 
 const fetchVerification = (verify) => (response, trail) =>
-  (verify instanceof Function)
+  verify instanceof Function
     ? verify(response, trail) // Use provided promise for verifying captcha
     : fetch(verify, {
         // Verification API URL provided instead
@@ -29,31 +29,26 @@ const fetchVerification = (verify) => (response, trail) =>
       }).then((message) => message.json());
 
 const SliderCaptcha = ({
-  callback,
-  create,
-  verify,
-  variant,
-  text,
+ callback, create, verify, variant, text,
 }) => {
   const [verified, setVerified] = useState(false);
   const submitResponse = (response, trail) =>
     new Promise((resolve) => {
-      fetchVerification(verify)(response, trail)
-        .then((verification) => {
-          if (
-            !verification.result ||
-            verification.result !== 'success' ||
-            !verification.token
-          ) {
-            resolve(false);
-          } else {
-            setTimeout(() => {
-              callback(verification.token);
-              setVerified(true);
-            }, 500);
-            resolve(true);
-          }
-        });
+      fetchVerification(verify)(response, trail).then((verification) => {
+        if (
+          !verification.result ||
+          verification.result !== 'success' ||
+          !verification.token
+        ) {
+          resolve(false);
+        } else {
+          setTimeout(() => {
+            callback(verification.token);
+            setVerified(true);
+          }, 500);
+          resolve(true);
+        }
+      });
     });
   return (
     <div className="scaptcha-container">
