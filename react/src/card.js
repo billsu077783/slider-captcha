@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
-import PropTypes from "prop-types";
-import { LoadingIcon } from "./icons";
-import Challenge from "./challenge";
+import React, { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
+import { LoadingIcon } from './icons';
+import Challenge from './challenge';
 
-const Card = ({ refresh, refreshEnd, text, fetchCaptcha, submitResponse }) => {
+const Card = ({
+ refresh, refreshEnd, text, fetchCaptcha, submitResponse,
+}) => {
   const [key, setKey] = useState(Math.random());
   const [captcha, setCaptcha] = useState(false);
   const isMounted = useRef(false);
@@ -15,8 +17,8 @@ const Card = ({ refresh, refreshEnd, text, fetchCaptcha, submitResponse }) => {
         setKey(Math.random());
         setCaptcha(newCaptcha);
 
-        if (typeof window !== "undefined") {
-          window.localStorage.setItem("captcha", newCaptcha.solution);
+        if (typeof window !== 'undefined') {
+          window.localStorage.setItem('captcha', newCaptcha.solution);
         }
       }, 300);
     });
@@ -24,8 +26,8 @@ const Card = ({ refresh, refreshEnd, text, fetchCaptcha, submitResponse }) => {
   const completeCaptcha = (response, trail) =>
     new Promise((resolve) => {
       submitResponse(response, trail).then((verified) => {
-        if (typeof window !== "undefined") {
-          window.localStorage.removeItem("captcha");
+        if (typeof window !== 'undefined') {
+          window.localStorage.removeItem('captcha');
         }
         if (verified) {
           resolve(true);
@@ -37,10 +39,10 @@ const Card = ({ refresh, refreshEnd, text, fetchCaptcha, submitResponse }) => {
     });
 
   useEffect(() => {
-    if (!refresh) return;
-
-    isMounted.current = true;
-    refreshCaptcha();
+    if (refresh) {
+      isMounted.current = true;
+      refreshCaptcha();
+    }
     return () => {
       isMounted.current = false;
       refreshEnd();
@@ -66,7 +68,7 @@ const Card = ({ refresh, refreshEnd, text, fetchCaptcha, submitResponse }) => {
 };
 
 Card.propTypes = {
-  refresh: PropTypes.bool,
+  refresh: PropTypes.bool.isRequired,
   refreshEnd: PropTypes.func.isRequired,
   fetchCaptcha: PropTypes.func.isRequired,
   submitResponse: PropTypes.func.isRequired,

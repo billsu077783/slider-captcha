@@ -1,9 +1,11 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import Card from "./card";
-import { ReloadIcon, SuccessIcon } from "./icons";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import Card from './card';
+import { ReloadIcon } from './icons';
 
-const Anchor = ({ text, fetchCaptcha, submitResponse, verified }) => {
+const Anchor = ({
+ text, fetchCaptcha, submitResponse, verified,
+}) => {
   const [refreshKey, setKey] = useState(true);
   const refreshCaptcha = () => {
     setKey(true);
