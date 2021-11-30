@@ -57,8 +57,12 @@ var fetchVerification = function fetchVerification(verify) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        response: response,
-        trail: trail
+        captcha: typeof window !== 'undefined' ? window.localStorage.getItem('captcha') : null,
+        response: {
+          response: response,
+          trail: trail
+        },
+        tolerance: 5
       })
     }).then(function (message) {
       return message.json();

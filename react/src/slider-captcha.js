@@ -23,8 +23,15 @@ const fetchVerification = (verify) => (response, trail) =>
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          response,
-          trail,
+          captcha:
+            typeof window !== 'undefined'
+              ? window.localStorage.getItem('captcha')
+              : null,
+          response: {
+            response,
+            trail,
+          },
+          tolerance: 5,
         }),
       }).then((message) => message.json());
 

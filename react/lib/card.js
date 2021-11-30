@@ -56,6 +56,10 @@ var Card = function Card(_ref) {
         if (!isMounted.current) return;
         setKey(Math.random());
         setCaptcha(newCaptcha);
+
+        if (typeof window !== 'undefined') {
+          window.localStorage.setItem('captcha', newCaptcha.solution);
+        }
       }, 300);
     });
   };
@@ -63,6 +67,10 @@ var Card = function Card(_ref) {
   var completeCaptcha = function completeCaptcha(response, trail) {
     return new Promise(function (resolve) {
       submitResponse(response, trail).then(function (verified) {
+        if (typeof window !== 'undefined') {
+          window.localStorage.removeItem('captcha');
+        }
+
         if (verified) {
           resolve(true);
         } else {

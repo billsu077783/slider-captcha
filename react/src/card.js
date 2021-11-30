@@ -14,12 +14,19 @@ const Card = ({ text, fetchCaptcha, submitResponse }) => {
         if (!isMounted.current) return;
         setKey(Math.random());
         setCaptcha(newCaptcha);
+
+        if (typeof window !== 'undefined') {
+          window.localStorage.setItem('captcha', newCaptcha.solution);
+        }
       }, 300);
     });
   };
   const completeCaptcha = (response, trail) =>
     new Promise((resolve) => {
       submitResponse(response, trail).then((verified) => {
+        if (typeof window !== 'undefined') {
+          window.localStorage.removeItem('captcha');
+        }
         if (verified) {
           resolve(true);
         } else {
@@ -32,7 +39,9 @@ const Card = ({ text, fetchCaptcha, submitResponse }) => {
   useEffect(() => {
     isMounted.current = true;
     refreshCaptcha();
-    return () => { isMounted.current = false; };
+    return () => {
+      isMounted.current = false;
+    };
   }, []);
 
   return (
