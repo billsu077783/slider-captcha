@@ -12,7 +12,6 @@ const lightTheme = `.scaptcha-icon-dark {
   justify-content: right;
   position: absolute;
   min-width: 280px;
-  width: 100%;
   height: 50px;
   padding: 13px;
   margin-top: 216px;
@@ -45,7 +44,7 @@ const lightTheme = `.scaptcha-icon-dark {
   justify-content: right;
   color: #424242;
   transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  margin-right: 13px;
+  margin-right: 5px;
   cursor: default;
 }
 

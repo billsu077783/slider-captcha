@@ -44,7 +44,7 @@ $anchor-height: 50px;
     // background-color: map.get($colors, "anchor-background");
     position: absolute;
     min-width: $width + 2 * $card-padding;
-    width: 100%;
+    // width: 100%;
     height: $anchor-height;
     padding: $anchor-padding;
     margin-top: $height + 66px;
@@ -72,7 +72,7 @@ $anchor-height: 50px;
     @include center-right;
     color: map.get($colors, "anchor-label");
     transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-    margin-right: $anchor-padding;
+    margin-right: 5px;
     cursor: default;
   }
 
