@@ -20,6 +20,12 @@
   justify-content: left;
 }
 
+@mixin center-right {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+}
+
 $width: 250px;
 $height: 150px;
 $slider-width: 60px;
@@ -32,14 +38,17 @@ $anchor-height: 50px;
 
 @mixin generate($colors) {
   .scaptcha-anchor-container {
-    @include center-left;
-    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    background-color: map.get($colors, "anchor-background");
+    @include center-right;
+    // box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.1);
+    // border: 1px solid rgba(0, 0, 0, 0.12);
+    // background-color: map.get($colors, "anchor-background");
+    position: absolute;
+    min-width: $width + 2 * $card-padding;
     width: 100%;
     height: $anchor-height;
     padding: $anchor-padding;
-    max-width: 400px;
+    margin-top: $height + 66px;
+    // max-width: 400px;
   }
 
   .scaptcha-anchor-checkbox {
@@ -60,10 +69,10 @@ $anchor-height: 50px;
 
   .scaptcha-anchor-label {
     @include typography;
-    @include center-left;
+    @include center-right;
     color: map.get($colors, "anchor-label");
     transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-    margin-left: $anchor-padding;
+    margin-right: $anchor-padding;
     cursor: default;
   }
 

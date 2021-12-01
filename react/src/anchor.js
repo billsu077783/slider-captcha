@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import Card from './card';
 import { ReloadIcon } from './icons';
@@ -6,19 +6,15 @@ import { ReloadIcon } from './icons';
 const Anchor = ({
  text, fetchCaptcha, submitResponse, verified,
 }) => {
-  const [refreshKey, setKey] = useState(true);
-  const refreshCaptcha = () => {
-    setKey(true);
-  };
-  const refreshEnd = () => {
-    setKey(false);
+  const cardRef = useRef();
+  const refresh = () => {
+    cardRef.current.refreshCaptcha();
   };
   return (
     <div>
       <div>
         <Card
-          refresh={refreshKey}
-          refreshEnd={refreshEnd}
+          cRef={cardRef}
           fetchCaptcha={fetchCaptcha}
           submitResponse={submitResponse}
           text={text}
@@ -27,8 +23,11 @@ const Anchor = ({
       {!verified && (
         <div
           className="scaptcha-anchor-container scaptcha-anchor-element"
-          onClick={refreshCaptcha}
+          onClick={refresh}
         >
+          <div className="scaptcha-anchor-label scaptcha-anchor-element">
+            {text.anchor}
+          </div>
           <ReloadIcon />
         </div>
       )}

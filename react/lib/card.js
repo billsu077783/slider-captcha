@@ -34,8 +34,7 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var Card = function Card(_ref) {
-  var refresh = _ref.refresh,
-      refreshEnd = _ref.refreshEnd,
+  var cRef = _ref.cRef,
       text = _ref.text,
       fetchCaptcha = _ref.fetchCaptcha,
       submitResponse = _ref.submitResponse;
@@ -51,20 +50,23 @@ var Card = function Card(_ref) {
       setCaptcha = _useState4[1];
 
   var isMounted = (0, _react.useRef)(false);
+  (0, _react.useImperativeHandle)(cRef, function () {
+    return {
+      refreshCaptcha: function refreshCaptcha() {
+        fetchCaptcha().then(function (newCaptcha) {
+          setTimeout(function () {
+            if (!isMounted.current) return;
+            setKey(Math.random());
+            setCaptcha(newCaptcha);
 
-  var refreshCaptcha = function refreshCaptcha() {
-    fetchCaptcha().then(function (newCaptcha) {
-      setTimeout(function () {
-        if (!isMounted.current) return;
-        setKey(Math.random());
-        setCaptcha(newCaptcha);
-
-        if (typeof window !== 'undefined') {
-          window.localStorage.setItem('captcha', newCaptcha.solution);
-        }
-      }, 300);
-    });
-  };
+            if (typeof window !== 'undefined') {
+              window.localStorage.setItem('captcha', newCaptcha.solution);
+            }
+          }, 300);
+        });
+      }
+    };
+  });
 
   var completeCaptcha = function completeCaptcha(response, trail) {
     return new Promise(function (resolve) {
@@ -76,7 +78,7 @@ var Card = function Card(_ref) {
         if (verified) {
           resolve(true);
         } else {
-          refreshCaptcha();
+          cRef.current.refreshCaptcha();
           resolve(false);
         }
       });
@@ -84,16 +86,12 @@ var Card = function Card(_ref) {
   };
 
   (0, _react.useEffect)(function () {
-    if (refresh) {
-      isMounted.current = true;
-      refreshCaptcha();
-    }
-
+    isMounted.current = true;
+    cRef.current.refreshCaptcha();
     return function () {
       isMounted.current = false;
-      refreshEnd();
     };
-  }, [refresh]);
+  }, []);
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: "scaptcha-card-container scaptcha-card-element"
   }, captcha ? /*#__PURE__*/_react["default"].createElement(_challenge["default"], {
@@ -107,8 +105,9 @@ var Card = function Card(_ref) {
 };
 
 Card.propTypes = {
-  refresh: _propTypes["default"].bool.isRequired,
-  refreshEnd: _propTypes["default"].func.isRequired,
+  cRef: _propTypes["default"].oneOfType([_propTypes["default"].func, _propTypes["default"].shape({
+    current: _propTypes["default"].elementType
+  })]).isRequired,
   fetchCaptcha: _propTypes["default"].func.isRequired,
   submitResponse: _propTypes["default"].func.isRequired,
   text: _propTypes["default"].shape({

@@ -1,28 +1,33 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {
+ useState, useEffect, useRef, useImperativeHandle,
+} from 'react';
 import PropTypes from 'prop-types';
 import { LoadingIcon } from './icons';
 import Challenge from './challenge';
 
 const Card = ({
- refresh, refreshEnd, text, fetchCaptcha, submitResponse,
+ cRef, text, fetchCaptcha, submitResponse,
 }) => {
   const [key, setKey] = useState(Math.random());
   const [captcha, setCaptcha] = useState(false);
   const isMounted = useRef(false);
 
-  const refreshCaptcha = () => {
-    fetchCaptcha().then((newCaptcha) => {
-      setTimeout(() => {
-        if (!isMounted.current) return;
-        setKey(Math.random());
-        setCaptcha(newCaptcha);
+  useImperativeHandle(cRef, () => ({
+    refreshCaptcha: () => {
+      fetchCaptcha().then((newCaptcha) => {
+        setTimeout(() => {
+          if (!isMounted.current) return;
+          setKey(Math.random());
+          setCaptcha(newCaptcha);
 
-        if (typeof window !== 'undefined') {
-          window.localStorage.setItem('captcha', newCaptcha.solution);
-        }
-      }, 300);
-    });
-  };
+          if (typeof window !== 'undefined') {
+            window.localStorage.setItem('captcha', newCaptcha.solution);
+          }
+        }, 300);
+      });
+    },
+  }));
+
   const completeCaptcha = (response, trail) =>
     new Promise((resolve) => {
       submitResponse(response, trail).then((verified) => {
@@ -32,22 +37,20 @@ const Card = ({
         if (verified) {
           resolve(true);
         } else {
-          refreshCaptcha();
+          cRef.current.refreshCaptcha();
           resolve(false);
         }
       });
     });
 
   useEffect(() => {
-    if (refresh) {
-      isMounted.current = true;
-      refreshCaptcha();
-    }
+    isMounted.current = true;
+    cRef.current.refreshCaptcha();
+
     return () => {
       isMounted.current = false;
-      refreshEnd();
     };
-  }, [refresh]);
+  }, []);
 
   return (
     <div className="scaptcha-card-container scaptcha-card-element">
@@ -68,8 +71,10 @@ const Card = ({
 };
 
 Card.propTypes = {
-  refresh: PropTypes.bool.isRequired,
-  refreshEnd: PropTypes.func.isRequired,
+  cRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.elementType }),
+  ]).isRequired,
   fetchCaptcha: PropTypes.func.isRequired,
   submitResponse: PropTypes.func.isRequired,
   text: PropTypes.shape({
