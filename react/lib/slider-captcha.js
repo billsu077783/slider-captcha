@@ -40,7 +40,7 @@ var fetchCaptcha = function fetchCaptcha(create) {
       // Use create as API URL for fetch
       method: 'POST',
       credentials: 'include',
-      header: {
+      headers: {
         'Content-type': 'application/json'
       },
       body: JSON.stringify({
