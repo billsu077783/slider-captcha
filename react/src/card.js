@@ -6,11 +6,7 @@ import { LoadingIcon } from './icons';
 import Challenge from './challenge';
 
 const Card = ({
-  cRef,
-  text,
-  createCaptcha,
-  submitResponse,
-  refreshSolution,
+ cRef, text, createCaptcha, submitResponse,
 }) => {
   const [key, setKey] = useState(Math.random());
   const [captcha, setCaptcha] = useState(false);
@@ -23,7 +19,6 @@ const Card = ({
           if (!isMounted.current) return;
           setKey(Math.random());
           setCaptcha(newCaptcha);
-          refreshSolution(newCaptcha.solution);
         }, 300);
       });
     },
@@ -32,7 +27,6 @@ const Card = ({
   const completeCaptcha = (response, trail) =>
     new Promise((resolve) => {
       submitResponse(response, trail).then((verified) => {
-        refreshSolution('');
         if (verified) {
           resolve(true);
         } else {
@@ -76,7 +70,6 @@ Card.propTypes = {
   ]).isRequired,
   createCaptcha: PropTypes.func.isRequired,
   submitResponse: PropTypes.func.isRequired,
-  refreshSolution: PropTypes.func.isRequired,
   text: PropTypes.shape({
     anchor: PropTypes.string,
     challenge: PropTypes.string,

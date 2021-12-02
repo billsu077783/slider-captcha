@@ -37,8 +37,7 @@ var Card = function Card(_ref) {
   var cRef = _ref.cRef,
       text = _ref.text,
       createCaptcha = _ref.createCaptcha,
-      submitResponse = _ref.submitResponse,
-      refreshSolution = _ref.refreshSolution;
+      submitResponse = _ref.submitResponse;
 
   var _useState = (0, _react.useState)(Math.random()),
       _useState2 = _slicedToArray(_useState, 2),
@@ -59,7 +58,6 @@ var Card = function Card(_ref) {
             if (!isMounted.current) return;
             setKey(Math.random());
             setCaptcha(newCaptcha);
-            refreshSolution(newCaptcha.solution);
           }, 300);
         });
       }
@@ -69,8 +67,6 @@ var Card = function Card(_ref) {
   var completeCaptcha = function completeCaptcha(response, trail) {
     return new Promise(function (resolve) {
       submitResponse(response, trail).then(function (verified) {
-        refreshSolution('');
-
         if (verified) {
           resolve(true);
         } else {
@@ -106,7 +102,6 @@ Card.propTypes = {
   })]).isRequired,
   createCaptcha: _propTypes["default"].func.isRequired,
   submitResponse: _propTypes["default"].func.isRequired,
-  refreshSolution: _propTypes["default"].func.isRequired,
   text: _propTypes["default"].shape({
     anchor: _propTypes["default"].string,
     challenge: _propTypes["default"].string

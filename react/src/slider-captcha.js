@@ -50,16 +50,16 @@ const SliderCaptcha = ({
 }) => {
   const [verified, setVerified] = useState(false);
   const [captcha, setCaptcha] = useState('');
-  const refreshSolution = (value) => {
-    setCaptcha(value);
-  };
   const createCaptcha = () => {
-    fetchCaptcha(create)(width, height);
+    fetchCaptcha(create)(width, height).then((newCaptCha) => {
+      setCaptcha(newCaptCha.solution);
+    });
   };
   const submitResponse = (response, trail) =>
     new Promise((resolve) => {
       fetchVerification(verify)(captcha, response, trail).then(
         (verification) => {
+          setCaptcha('');
           if (
             !verification.result ||
             verification.result !== 'success' ||
@@ -83,7 +83,6 @@ const SliderCaptcha = ({
         text={text}
         createCaptcha={createCaptcha}
         submitResponse={submitResponse}
-        refreshSolution={refreshSolution}
         verified={verified}
       />
     </div>

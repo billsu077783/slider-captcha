@@ -96,17 +96,17 @@ var SliderCaptcha = function SliderCaptcha(_ref) {
       captcha = _useState4[0],
       setCaptcha = _useState4[1];
 
-  var refreshSolution = function refreshSolution(value) {
-    setCaptcha(value);
-  };
-
   var createCaptcha = function createCaptcha() {
-    fetchCaptcha(create)(width, height);
+    fetchCaptcha(create)(width, height).then(function (newCaptCha) {
+      setCaptcha(newCaptCha.solution);
+    });
   };
 
   var submitResponse = function submitResponse(response, trail) {
     return new Promise(function (resolve) {
       fetchVerification(verify)(captcha, response, trail).then(function (verification) {
+        setCaptcha('');
+
         if (!verification.result || verification.result !== 'success' || !verification.token) {
           resolve(false);
         } else {
@@ -128,7 +128,6 @@ var SliderCaptcha = function SliderCaptcha(_ref) {
     text: text,
     createCaptcha: createCaptcha,
     submitResponse: submitResponse,
-    refreshSolution: refreshSolution,
     verified: verified
   }));
 };
