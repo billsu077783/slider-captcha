@@ -34,12 +34,19 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var fetchCaptcha = function fetchCaptcha(create) {
-  return function () {
-    return create instanceof Function ? create() // Use provided promise for getting background and slider
+  return function (width, height) {
+    return create instanceof Function ? create(width, height) // Use provided promise for getting background and slider
     : fetch(create, {
       // Use create as API URL for fetch
-      method: 'GET',
-      credentials: 'include'
+      method: 'POST',
+      credentials: 'include',
+      header: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        width: width,
+        height: height
+      })
     }).then(function (message) {
       return message.json();
     });
@@ -47,8 +54,8 @@ var fetchCaptcha = function fetchCaptcha(create) {
 };
 
 var fetchVerification = function fetchVerification(verify) {
-  return function (response, trail) {
-    return verify instanceof Function ? verify(response, trail) // Use provided promise for verifying captcha
+  return function (captcha, response, trail) {
+    return verify instanceof Function ? verify(captcha, response, trail) // Use provided promise for verifying captcha
     : fetch(verify, {
       // Verification API URL provided instead
       method: 'POST',
@@ -57,7 +64,7 @@ var fetchVerification = function fetchVerification(verify) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        captcha: typeof window !== 'undefined' ? window.localStorage.getItem('captcha') : null,
+        captcha: captcha,
         response: {
           response: response,
           trail: trail
@@ -74,6 +81,8 @@ var SliderCaptcha = function SliderCaptcha(_ref) {
   var callback = _ref.callback,
       create = _ref.create,
       verify = _ref.verify,
+      width = _ref.width,
+      height = _ref.height,
       variant = _ref.variant,
       text = _ref.text;
 
@@ -82,9 +91,22 @@ var SliderCaptcha = function SliderCaptcha(_ref) {
       verified = _useState2[0],
       setVerified = _useState2[1];
 
+  var _useState3 = (0, _react.useState)(''),
+      _useState4 = _slicedToArray(_useState3, 2),
+      captcha = _useState4[0],
+      setCaptcha = _useState4[1];
+
+  var refreshSolution = function refreshSolution(value) {
+    setCaptcha(value);
+  };
+
+  var createCaptcha = function createCaptcha() {
+    fetchCaptcha(create)(width, height);
+  };
+
   var submitResponse = function submitResponse(response, trail) {
     return new Promise(function (resolve) {
-      fetchVerification(verify)(response, trail).then(function (verification) {
+      fetchVerification(verify)(captcha, response, trail).then(function (verification) {
         if (!verification.result || verification.result !== 'success' || !verification.token) {
           resolve(false);
         } else {
@@ -104,8 +126,9 @@ var SliderCaptcha = function SliderCaptcha(_ref) {
     variant: variant
   }), /*#__PURE__*/_react["default"].createElement(_anchor["default"], {
     text: text,
-    fetchCaptcha: fetchCaptcha(create),
+    createCaptcha: createCaptcha,
     submitResponse: submitResponse,
+    refreshSolution: refreshSolution,
     verified: verified
   }));
 };
@@ -115,6 +138,8 @@ SliderCaptcha.propTypes = {
   create: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].func]),
   verify: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].func]),
   variant: _propTypes["default"].string,
+  width: _propTypes["default"].number,
+  height: _propTypes["default"].number,
   text: _propTypes["default"].shape({
     anchor: _propTypes["default"].string,
     challenge: _propTypes["default"].string
@@ -128,6 +153,8 @@ SliderCaptcha.defaultProps = {
   create: 'captcha/create',
   verify: 'captcha/verify',
   variant: 'light',
+  width: 250,
+  height: 150,
   text: {
     anchor: 'I am human',
     challenge: 'Slide to finish the puzzle'

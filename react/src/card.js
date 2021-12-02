@@ -6,7 +6,11 @@ import { LoadingIcon } from './icons';
 import Challenge from './challenge';
 
 const Card = ({
- cRef, text, fetchCaptcha, submitResponse,
+  cRef,
+  text,
+  createCaptcha,
+  submitResponse,
+  refreshSolution,
 }) => {
   const [key, setKey] = useState(Math.random());
   const [captcha, setCaptcha] = useState(false);
@@ -14,15 +18,12 @@ const Card = ({
 
   useImperativeHandle(cRef, () => ({
     refreshCaptcha: () => {
-      fetchCaptcha().then((newCaptcha) => {
+      createCaptcha().then((newCaptcha) => {
         setTimeout(() => {
           if (!isMounted.current) return;
           setKey(Math.random());
           setCaptcha(newCaptcha);
-
-          if (typeof window !== 'undefined') {
-            window.localStorage.setItem('captcha', newCaptcha.solution);
-          }
+          refreshSolution(newCaptcha.solution);
         }, 300);
       });
     },
@@ -31,9 +32,7 @@ const Card = ({
   const completeCaptcha = (response, trail) =>
     new Promise((resolve) => {
       submitResponse(response, trail).then((verified) => {
-        if (typeof window !== 'undefined') {
-          window.localStorage.removeItem('captcha');
-        }
+        refreshSolution('');
         if (verified) {
           resolve(true);
         } else {
@@ -75,8 +74,9 @@ Card.propTypes = {
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.elementType }),
   ]).isRequired,
-  fetchCaptcha: PropTypes.func.isRequired,
+  createCaptcha: PropTypes.func.isRequired,
   submitResponse: PropTypes.func.isRequired,
+  refreshSolution: PropTypes.func.isRequired,
   text: PropTypes.shape({
     anchor: PropTypes.string,
     challenge: PropTypes.string,

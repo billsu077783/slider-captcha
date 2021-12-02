@@ -23,8 +23,9 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 
 var Anchor = function Anchor(_ref) {
   var text = _ref.text,
-      fetchCaptcha = _ref.fetchCaptcha,
+      createCaptcha = _ref.createCaptcha,
       submitResponse = _ref.submitResponse,
+      refreshSolution = _ref.refreshSolution,
       verified = _ref.verified;
   var cardRef = (0, _react.useRef)();
 
@@ -34,8 +35,9 @@ var Anchor = function Anchor(_ref) {
 
   return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_card["default"], {
     cRef: cardRef,
-    fetchCaptcha: fetchCaptcha,
+    createCaptcha: createCaptcha,
     submitResponse: submitResponse,
+    refreshSolution: refreshSolution,
     text: text
   })), !verified && /*#__PURE__*/_react["default"].createElement("div", {
     className: "scaptcha-anchor-container scaptcha-anchor-element",
@@ -46,8 +48,9 @@ var Anchor = function Anchor(_ref) {
 };
 
 Anchor.propTypes = {
-  fetchCaptcha: _propTypes["default"].func.isRequired,
+  createCaptcha: _propTypes["default"].func.isRequired,
   submitResponse: _propTypes["default"].func.isRequired,
+  refreshSolution: _propTypes["default"].func.isRequired,
   text: _propTypes["default"].shape({
     anchor: _propTypes["default"].string,
     challenge: _propTypes["default"].string

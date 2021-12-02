@@ -36,8 +36,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var Card = function Card(_ref) {
   var cRef = _ref.cRef,
       text = _ref.text,
-      fetchCaptcha = _ref.fetchCaptcha,
-      submitResponse = _ref.submitResponse;
+      createCaptcha = _ref.createCaptcha,
+      submitResponse = _ref.submitResponse,
+      refreshSolution = _ref.refreshSolution;
 
   var _useState = (0, _react.useState)(Math.random()),
       _useState2 = _slicedToArray(_useState, 2),
@@ -53,15 +54,12 @@ var Card = function Card(_ref) {
   (0, _react.useImperativeHandle)(cRef, function () {
     return {
       refreshCaptcha: function refreshCaptcha() {
-        fetchCaptcha().then(function (newCaptcha) {
+        createCaptcha().then(function (newCaptcha) {
           setTimeout(function () {
             if (!isMounted.current) return;
             setKey(Math.random());
             setCaptcha(newCaptcha);
-
-            if (typeof window !== 'undefined') {
-              window.localStorage.setItem('captcha', newCaptcha.solution);
-            }
+            refreshSolution(newCaptcha.solution);
           }, 300);
         });
       }
@@ -71,9 +69,7 @@ var Card = function Card(_ref) {
   var completeCaptcha = function completeCaptcha(response, trail) {
     return new Promise(function (resolve) {
       submitResponse(response, trail).then(function (verified) {
-        if (typeof window !== 'undefined') {
-          window.localStorage.removeItem('captcha');
-        }
+        refreshSolution('');
 
         if (verified) {
           resolve(true);
@@ -108,8 +104,9 @@ Card.propTypes = {
   cRef: _propTypes["default"].oneOfType([_propTypes["default"].func, _propTypes["default"].shape({
     current: _propTypes["default"].elementType
   })]).isRequired,
-  fetchCaptcha: _propTypes["default"].func.isRequired,
+  createCaptcha: _propTypes["default"].func.isRequired,
   submitResponse: _propTypes["default"].func.isRequired,
+  refreshSolution: _propTypes["default"].func.isRequired,
   text: _propTypes["default"].shape({
     anchor: _propTypes["default"].string,
     challenge: _propTypes["default"].string

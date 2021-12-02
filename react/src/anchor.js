@@ -4,7 +4,11 @@ import Card from './card';
 import { ReloadIcon } from './icons';
 
 const Anchor = ({
- text, fetchCaptcha, submitResponse, verified,
+  text,
+  createCaptcha,
+  submitResponse,
+  refreshSolution,
+  verified,
 }) => {
   const cardRef = useRef();
   const refresh = () => {
@@ -15,8 +19,9 @@ const Anchor = ({
       <div>
         <Card
           cRef={cardRef}
-          fetchCaptcha={fetchCaptcha}
+          createCaptcha={createCaptcha}
           submitResponse={submitResponse}
+          refreshSolution={refreshSolution}
           text={text}
         />
       </div>
@@ -35,8 +40,9 @@ const Anchor = ({
   );
 };
 Anchor.propTypes = {
-  fetchCaptcha: PropTypes.func.isRequired,
+  createCaptcha: PropTypes.func.isRequired,
   submitResponse: PropTypes.func.isRequired,
+  refreshSolution: PropTypes.func.isRequired,
   text: PropTypes.shape({
     anchor: PropTypes.string,
     challenge: PropTypes.string,

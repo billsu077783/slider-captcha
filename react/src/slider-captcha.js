@@ -3,18 +3,25 @@ import PropTypes from 'prop-types';
 import Anchor from './anchor';
 import Theme from './theme';
 
-const fetchCaptcha = (create) => () =>
+const fetchCaptcha = (create) => (width, height) =>
   create instanceof Function
-    ? create() // Use provided promise for getting background and slider
+    ? create(width, height) // Use provided promise for getting background and slider
     : fetch(create, {
         // Use create as API URL for fetch
-        method: 'GET',
+        method: 'POST',
         credentials: 'include',
+        header: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          width,
+          height,
+        }),
       }).then((message) => message.json());
 
-const fetchVerification = (verify) => (response, trail) =>
+const fetchVerification = (verify) => (captcha, response, trail) =>
   verify instanceof Function
-    ? verify(response, trail) // Use provided promise for verifying captcha
+    ? verify(captcha, response, trail) // Use provided promise for verifying captcha
     : fetch(verify, {
         // Verification API URL provided instead
         method: 'POST',
@@ -23,10 +30,7 @@ const fetchVerification = (verify) => (response, trail) =>
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          captcha:
-            typeof window !== 'undefined'
-              ? window.localStorage.getItem('captcha')
-              : null,
+          captcha,
           response: {
             response,
             trail,
@@ -36,34 +40,50 @@ const fetchVerification = (verify) => (response, trail) =>
       }).then((message) => message.json());
 
 const SliderCaptcha = ({
- callback, create, verify, variant, text,
+  callback,
+  create,
+  verify,
+  width,
+  height,
+  variant,
+  text,
 }) => {
   const [verified, setVerified] = useState(false);
+  const [captcha, setCaptcha] = useState('');
+  const refreshSolution = (value) => {
+    setCaptcha(value);
+  };
+  const createCaptcha = () => {
+    fetchCaptcha(create)(width, height);
+  };
   const submitResponse = (response, trail) =>
     new Promise((resolve) => {
-      fetchVerification(verify)(response, trail).then((verification) => {
-        if (
-          !verification.result ||
-          verification.result !== 'success' ||
-          !verification.token
-        ) {
-          resolve(false);
-        } else {
-          setTimeout(() => {
-            callback(verification.token);
-            setVerified(true);
-          }, 500);
-          resolve(true);
-        }
-      });
+      fetchVerification(verify)(captcha, response, trail).then(
+        (verification) => {
+          if (
+            !verification.result ||
+            verification.result !== 'success' ||
+            !verification.token
+          ) {
+            resolve(false);
+          } else {
+            setTimeout(() => {
+              callback(verification.token);
+              setVerified(true);
+            }, 500);
+            resolve(true);
+          }
+        },
+      );
     });
   return (
     <div className="scaptcha-container">
       <Theme variant={variant} />
       <Anchor
         text={text}
-        fetchCaptcha={fetchCaptcha(create)}
+        createCaptcha={createCaptcha}
         submitResponse={submitResponse}
+        refreshSolution={refreshSolution}
         verified={verified}
       />
     </div>
@@ -75,6 +95,8 @@ SliderCaptcha.propTypes = {
   create: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   verify: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   variant: PropTypes.string,
+  width: PropTypes.number,
+  height: PropTypes.number,
   text: PropTypes.shape({
     anchor: PropTypes.string,
     challenge: PropTypes.string,
@@ -86,6 +108,8 @@ SliderCaptcha.defaultProps = {
   create: 'captcha/create',
   verify: 'captcha/verify',
   variant: 'light',
+  width: 250,
+  height: 150,
   text: {
     anchor: 'I am human',
     challenge: 'Slide to finish the puzzle',
