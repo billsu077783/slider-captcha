@@ -50,11 +50,13 @@ const SliderCaptcha = ({
 }) => {
   const [verified, setVerified] = useState(false);
   const [captcha, setCaptcha] = useState('');
-  const createCaptcha = () => {
-    fetchCaptcha(create)(width, height).then((newCaptCha) => {
-      setCaptcha(newCaptCha.solution);
+  const createCaptcha = () =>
+    new Promise((resolve) => {
+      fetchCaptcha(create)(width, height).then((newCaptCha) => {
+        setCaptcha(newCaptCha.solution);
+        resolve(newCaptCha);
+      });
     });
-  };
   const submitResponse = (response, trail) =>
     new Promise((resolve) => {
       fetchVerification(verify)(captcha, response, trail).then(

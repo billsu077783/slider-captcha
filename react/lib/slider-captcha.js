@@ -97,8 +97,11 @@ var SliderCaptcha = function SliderCaptcha(_ref) {
       setCaptcha = _useState4[1];
 
   var createCaptcha = function createCaptcha() {
-    fetchCaptcha(create)(width, height).then(function (newCaptCha) {
-      setCaptcha(newCaptCha.solution);
+    return new Promise(function (resolve) {
+      fetchCaptcha(create)(width, height).then(function (newCaptCha) {
+        setCaptcha(newCaptCha.solution);
+        resolve(newCaptCha);
+      });
     });
   };
 
