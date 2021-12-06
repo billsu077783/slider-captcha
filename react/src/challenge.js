@@ -28,7 +28,13 @@ const slider = {
   },
 };
 
-const Challenge = ({ text, captcha, completeCaptcha }) => {
+const Challenge = ({
+  text,
+  captcha,
+  completeCaptcha,
+  challenge,
+  container,
+}) => {
   const [sliderVariant, setSliderVariant] = useState(slider.default);
   const [solving, setSolving] = useState(false);
   const [submittedResponse, setSubmittedResponse] = useState(false);
@@ -101,6 +107,8 @@ const Challenge = ({ text, captcha, completeCaptcha }) => {
       <div
         className="scaptcha-card-background scaptcha-card-element"
         style={{
+          width: `${container.width}px`,
+          height: `${container.height}px`,
           backgroundImage: `url('${imageDataUrl(captcha.background)}')`,
         }}
       />
@@ -109,29 +117,59 @@ const Challenge = ({ text, captcha, completeCaptcha }) => {
         style={{
           backgroundImage: `url('${imageDataUrl(captcha.slider)}')`,
           left: `${scaleSliderPosition(trail.x[trail.x.length - 1])}px`,
+          marginLeft: '15px',
+          width: '60px',
+          height: `${container.height}px`,
         }}
         onMouseDown={handleStart}
         onTouchStart={handleStart}
       />
-      <div className="scaptcha-card-slider-container scaptcha-card-element">
-        <div className="scaptcha-card-slider-track scaptcha-card-element" />
+      <div
+        className="scaptcha-card-slider-container scaptcha-card-element"
+        style={{
+          width: `${challenge.width}px`,
+          height: `${challenge.height}px`,
+        }}
+      >
+        <div
+          className="scaptcha-card-slider-track scaptcha-card-element"
+          style={{
+            width: `${challenge.width}px`,
+            height: `${challenge.height}px`,
+          }}
+        />
         <div
           className="scaptcha-card-slider-label scaptcha-card-element"
-          style={{ opacity: solving ? 0 : 1 }}
+          style={{
+            opacity: solving ? 0 : 1,
+            width: `${challenge.width}px`,
+            height: `${challenge.height}px`,
+          }}
         >
           <span>{text.challenge}</span>
         </div>
         <div
           className={`scaptcha-card-slider-mask ${sliderVariant.track} scaptcha-card-element`}
-          style={{ width: `${trail.x[trail.x.length - 1] + 30}px` }}
+          style={{
+            width: `${trail.x[trail.x.length - 1] + 30}px`,
+            height: `${challenge.height}px`,
+          }}
         />
         <div
           className="scaptcha-card-slider-container scaptcha-card-element"
           draggable="false"
+          style={{
+            width: `${challenge.width}px`,
+            height: `${challenge.height}px`,
+          }}
         />
         <div
           className={`scaptcha-card-slider-control ${sliderVariant.control} scaptcha-card-element`}
-          style={{ left: `${trail.x[trail.x.length - 1]}px` }}
+          style={{
+            left: `${trail.x[trail.x.length - 1]}px`,
+            width: '60px',
+            height: `${challenge.height}px`,
+          }}
           onMouseDown={handleStart}
           onTouchStart={handleStart}
           onMouseEnter={handleEnter}
@@ -159,6 +197,14 @@ Challenge.propTypes = {
   text: PropTypes.shape({
     anchor: PropTypes.string,
     challenge: PropTypes.string,
+  }).isRequired,
+  challenge: PropTypes.shape({
+    width: PropTypes.number,
+    height: PropTypes.number,
+  }).isRequired,
+  container: PropTypes.shape({
+    width: PropTypes.number,
+    height: PropTypes.number,
   }).isRequired,
 };
 

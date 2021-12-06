@@ -61,7 +61,9 @@ var slider = {
 var Challenge = function Challenge(_ref) {
   var text = _ref.text,
       captcha = _ref.captcha,
-      completeCaptcha = _ref.completeCaptcha;
+      completeCaptcha = _ref.completeCaptcha,
+      challenge = _ref.challenge,
+      container = _ref.container;
 
   var _useState = (0, _react.useState)(slider["default"]),
       _useState2 = _slicedToArray(_useState, 2),
@@ -152,37 +154,59 @@ var Challenge = function Challenge(_ref) {
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "scaptcha-card-background scaptcha-card-element",
     style: {
+      width: "".concat(container.width, "px"),
+      height: "".concat(container.height, "px"),
       backgroundImage: "url('".concat(imageDataUrl(captcha.background), "')")
     }
   }), /*#__PURE__*/_react["default"].createElement("div", {
     className: "scaptcha-card-slider-puzzle scaptcha-card-element",
     style: {
       backgroundImage: "url('".concat(imageDataUrl(captcha.slider), "')"),
-      left: "".concat(scaleSliderPosition(trail.x[trail.x.length - 1]), "px")
+      left: "".concat(scaleSliderPosition(trail.x[trail.x.length - 1]), "px"),
+      marginLeft: '15px',
+      width: '60px',
+      height: "".concat(container.height, "px")
     },
     onMouseDown: handleStart,
     onTouchStart: handleStart
   }), /*#__PURE__*/_react["default"].createElement("div", {
-    className: "scaptcha-card-slider-container scaptcha-card-element"
+    className: "scaptcha-card-slider-container scaptcha-card-element",
+    style: {
+      width: "".concat(challenge.width, "px"),
+      height: "".concat(challenge.height, "px")
+    }
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "scaptcha-card-slider-track scaptcha-card-element"
+    className: "scaptcha-card-slider-track scaptcha-card-element",
+    style: {
+      width: "".concat(challenge.width, "px"),
+      height: "".concat(challenge.height, "px")
+    }
   }), /*#__PURE__*/_react["default"].createElement("div", {
     className: "scaptcha-card-slider-label scaptcha-card-element",
     style: {
-      opacity: solving ? 0 : 1
+      opacity: solving ? 0 : 1,
+      width: "".concat(challenge.width, "px"),
+      height: "".concat(challenge.height, "px")
     }
   }, /*#__PURE__*/_react["default"].createElement("span", null, text.challenge)), /*#__PURE__*/_react["default"].createElement("div", {
     className: "scaptcha-card-slider-mask ".concat(sliderVariant.track, " scaptcha-card-element"),
     style: {
-      width: "".concat(trail.x[trail.x.length - 1] + 30, "px")
+      width: "".concat(trail.x[trail.x.length - 1] + 30, "px"),
+      height: "".concat(challenge.height, "px")
     }
   }), /*#__PURE__*/_react["default"].createElement("div", {
     className: "scaptcha-card-slider-container scaptcha-card-element",
-    draggable: "false"
+    draggable: "false",
+    style: {
+      width: "".concat(challenge.width, "px"),
+      height: "".concat(challenge.height, "px")
+    }
   }), /*#__PURE__*/_react["default"].createElement("div", {
     className: "scaptcha-card-slider-control ".concat(sliderVariant.control, " scaptcha-card-element"),
     style: {
-      left: "".concat(trail.x[trail.x.length - 1], "px")
+      left: "".concat(trail.x[trail.x.length - 1], "px"),
+      width: '60px',
+      height: "".concat(challenge.height, "px")
     },
     onMouseDown: handleStart,
     onTouchStart: handleStart,
@@ -206,6 +230,14 @@ Challenge.propTypes = {
   text: _propTypes["default"].shape({
     anchor: _propTypes["default"].string,
     challenge: _propTypes["default"].string
+  }).isRequired,
+  challenge: _propTypes["default"].shape({
+    width: _propTypes["default"].number,
+    height: _propTypes["default"].number
+  }).isRequired,
+  container: _propTypes["default"].shape({
+    width: _propTypes["default"].number,
+    height: _propTypes["default"].number
   }).isRequired
 };
 var _default = Challenge;

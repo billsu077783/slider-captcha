@@ -81,9 +81,10 @@ var SliderCaptcha = function SliderCaptcha(_ref) {
   var callback = _ref.callback,
       create = _ref.create,
       verify = _ref.verify,
-      width = _ref.width,
-      height = _ref.height,
       variant = _ref.variant,
+      anchor = _ref.anchor,
+      card = _ref.card,
+      challenge = _ref.challenge,
       text = _ref.text;
 
   var _useState = (0, _react.useState)(false),
@@ -98,7 +99,7 @@ var SliderCaptcha = function SliderCaptcha(_ref) {
 
   var createCaptcha = function createCaptcha() {
     return new Promise(function (resolve) {
-      fetchCaptcha(create)(width, height).then(function (newCaptCha) {
+      fetchCaptcha(create)(card.width, card.height).then(function (newCaptCha) {
         setCaptcha(newCaptCha.solution);
         resolve(newCaptCha);
       });
@@ -131,7 +132,10 @@ var SliderCaptcha = function SliderCaptcha(_ref) {
     text: text,
     createCaptcha: createCaptcha,
     submitResponse: submitResponse,
-    verified: verified
+    verified: verified,
+    anchor: anchor,
+    card: card,
+    challenge: challenge
   }));
 };
 
@@ -140,8 +144,18 @@ SliderCaptcha.propTypes = {
   create: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].func]),
   verify: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].func]),
   variant: _propTypes["default"].string,
-  width: _propTypes["default"].number,
-  height: _propTypes["default"].number,
+  anchor: _propTypes["default"].shape({
+    width: _propTypes["default"].number,
+    height: _propTypes["default"].number
+  }),
+  card: _propTypes["default"].shape({
+    width: _propTypes["default"].number,
+    height: _propTypes["default"].number
+  }),
+  challenge: _propTypes["default"].shape({
+    width: _propTypes["default"].number,
+    height: _propTypes["default"].number
+  }),
   text: _propTypes["default"].shape({
     anchor: _propTypes["default"].string,
     challenge: _propTypes["default"].string
@@ -155,8 +169,18 @@ SliderCaptcha.defaultProps = {
   create: 'captcha/create',
   verify: 'captcha/verify',
   variant: 'light',
-  width: 250,
-  height: 150,
+  anchor: {
+    width: 520,
+    height: 50
+  },
+  card: {
+    width: 520,
+    height: 230
+  },
+  challenge: {
+    width: 520,
+    height: 50
+  },
   text: {
     anchor: 'I am human',
     challenge: 'Slide to finish the puzzle'

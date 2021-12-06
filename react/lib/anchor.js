@@ -25,7 +25,10 @@ var Anchor = function Anchor(_ref) {
   var text = _ref.text,
       createCaptcha = _ref.createCaptcha,
       submitResponse = _ref.submitResponse,
-      verified = _ref.verified;
+      verified = _ref.verified,
+      anchor = _ref.anchor,
+      card = _ref.card,
+      challenge = _ref.challenge;
   var cardRef = (0, _react.useRef)();
 
   var refresh = function refresh() {
@@ -36,12 +39,23 @@ var Anchor = function Anchor(_ref) {
     cRef: cardRef,
     createCaptcha: createCaptcha,
     submitResponse: submitResponse,
-    text: text
+    text: text,
+    card: card,
+    challenge: challenge
   })), !verified && /*#__PURE__*/_react["default"].createElement("div", {
     className: "scaptcha-anchor-container scaptcha-anchor-element",
+    style: {
+      width: "".concat(anchor.width, "px"),
+      height: "".concat(anchor.height, "px"),
+      marginTop: "".concat(card.height + challenge.height + 20, "px")
+    },
     onClick: refresh
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "scaptcha-anchor-label scaptcha-anchor-element"
+    className: "scaptcha-anchor-label scaptcha-anchor-element",
+    style: {
+      width: "".concat(anchor.width, "px"),
+      height: "".concat(anchor.height, "px")
+    }
   }, text.anchor), /*#__PURE__*/_react["default"].createElement(_icons.ReloadIcon, null)));
 };
 
@@ -52,7 +66,19 @@ Anchor.propTypes = {
     anchor: _propTypes["default"].string,
     challenge: _propTypes["default"].string
   }).isRequired,
-  verified: _propTypes["default"].bool.isRequired
+  verified: _propTypes["default"].bool.isRequired,
+  anchor: _propTypes["default"].shape({
+    width: _propTypes["default"].number,
+    height: _propTypes["default"].number
+  }).isRequired,
+  card: _propTypes["default"].shape({
+    width: _propTypes["default"].number,
+    height: _propTypes["default"].number
+  }).isRequired,
+  challenge: _propTypes["default"].shape({
+    width: _propTypes["default"].number,
+    height: _propTypes["default"].number
+  }).isRequired
 };
 var _default = Anchor;
 exports["default"] = _default;

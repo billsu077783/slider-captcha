@@ -4,7 +4,13 @@ import Card from './card';
 import { ReloadIcon } from './icons';
 
 const Anchor = ({
- text, createCaptcha, submitResponse, verified,
+  text,
+  createCaptcha,
+  submitResponse,
+  verified,
+  anchor,
+  card,
+  challenge,
 }) => {
   const cardRef = useRef();
   const refresh = () => {
@@ -18,14 +24,27 @@ const Anchor = ({
           createCaptcha={createCaptcha}
           submitResponse={submitResponse}
           text={text}
+          card={card}
+          challenge={challenge}
         />
       </div>
       {!verified && (
         <div
           className="scaptcha-anchor-container scaptcha-anchor-element"
+          style={{
+            width: `${anchor.width}px`,
+            height: `${anchor.height}px`,
+            marginTop: `${card.height + challenge.height + 20}px`,
+          }}
           onClick={refresh}
         >
-          <div className="scaptcha-anchor-label scaptcha-anchor-element">
+          <div
+            className="scaptcha-anchor-label scaptcha-anchor-element"
+            style={{
+              width: `${anchor.width}px`,
+              height: `${anchor.height}px`,
+            }}
+          >
             {text.anchor}
           </div>
           <ReloadIcon />
@@ -42,6 +61,18 @@ Anchor.propTypes = {
     challenge: PropTypes.string,
   }).isRequired,
   verified: PropTypes.bool.isRequired,
+  anchor: PropTypes.shape({
+    width: PropTypes.number,
+    height: PropTypes.number,
+  }).isRequired,
+  card: PropTypes.shape({
+    width: PropTypes.number,
+    height: PropTypes.number,
+  }).isRequired,
+  challenge: PropTypes.shape({
+    width: PropTypes.number,
+    height: PropTypes.number,
+  }).isRequired,
 };
 
 export default Anchor;

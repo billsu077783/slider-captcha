@@ -6,7 +6,12 @@ import { LoadingIcon } from './icons';
 import Challenge from './challenge';
 
 const Card = ({
- cRef, text, createCaptcha, submitResponse,
+  cRef,
+  text,
+  createCaptcha,
+  submitResponse,
+  card,
+  challenge,
 }) => {
   const [key, setKey] = useState(Math.random());
   const [captcha, setCaptcha] = useState(false);
@@ -46,16 +51,30 @@ const Card = ({
   }, []);
 
   return (
-    <div className="scaptcha-card-container scaptcha-card-element">
+    <div
+      className="scaptcha-card-container scaptcha-card-element"
+      style={{
+        minWidth: `${card.width}px`,
+        minHeight: `${card.height + challenge.height + 20}`,
+      }}
+    >
       {captcha ? (
         <Challenge
           key={key}
           text={text}
           captcha={captcha}
+          challenge={challenge}
+          container={card}
           completeCaptcha={completeCaptcha}
         />
       ) : (
-        <div className="scaptcha-card-loading scaptcha-card-element">
+        <div
+          className="scaptcha-card-loading scaptcha-card-element"
+          style={{
+            minWidth: `${card.width}px`,
+            minHeight: `${card.height + challenge.height + 20}`,
+          }}
+        >
           <LoadingIcon />
         </div>
       )}
@@ -73,6 +92,14 @@ Card.propTypes = {
   text: PropTypes.shape({
     anchor: PropTypes.string,
     challenge: PropTypes.string,
+  }).isRequired,
+  card: PropTypes.shape({
+    width: PropTypes.number,
+    height: PropTypes.number,
+  }).isRequired,
+  challenge: PropTypes.shape({
+    widht: PropTypes.number,
+    height: PropTypes.number,
   }).isRequired,
 };
 

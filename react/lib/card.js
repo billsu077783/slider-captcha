@@ -37,7 +37,9 @@ var Card = function Card(_ref) {
   var cRef = _ref.cRef,
       text = _ref.text,
       createCaptcha = _ref.createCaptcha,
-      submitResponse = _ref.submitResponse;
+      submitResponse = _ref.submitResponse,
+      card = _ref.card,
+      challenge = _ref.challenge;
 
   var _useState = (0, _react.useState)(Math.random()),
       _useState2 = _slicedToArray(_useState, 2),
@@ -85,14 +87,24 @@ var Card = function Card(_ref) {
     };
   }, []);
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: "scaptcha-card-container scaptcha-card-element"
+    className: "scaptcha-card-container scaptcha-card-element",
+    style: {
+      minWidth: "".concat(card.width, "px"),
+      minHeight: "".concat(card.height + challenge.height + 20)
+    }
   }, captcha ? /*#__PURE__*/_react["default"].createElement(_challenge["default"], {
     key: key,
     text: text,
     captcha: captcha,
+    challenge: challenge,
+    container: card,
     completeCaptcha: completeCaptcha
   }) : /*#__PURE__*/_react["default"].createElement("div", {
-    className: "scaptcha-card-loading scaptcha-card-element"
+    className: "scaptcha-card-loading scaptcha-card-element",
+    style: {
+      minWidth: "".concat(card.width, "px"),
+      minHeight: "".concat(card.height + challenge.height + 20)
+    }
   }, /*#__PURE__*/_react["default"].createElement(_icons.LoadingIcon, null)));
 };
 
@@ -105,6 +117,14 @@ Card.propTypes = {
   text: _propTypes["default"].shape({
     anchor: _propTypes["default"].string,
     challenge: _propTypes["default"].string
+  }).isRequired,
+  card: _propTypes["default"].shape({
+    width: _propTypes["default"].number,
+    height: _propTypes["default"].number
+  }).isRequired,
+  challenge: _propTypes["default"].shape({
+    widht: _propTypes["default"].number,
+    height: _propTypes["default"].number
   }).isRequired
 };
 var _default = Card;

@@ -43,16 +43,17 @@ const SliderCaptcha = ({
   callback,
   create,
   verify,
-  width,
-  height,
   variant,
+  anchor,
+  card,
+  challenge,
   text,
 }) => {
   const [verified, setVerified] = useState(false);
   const [captcha, setCaptcha] = useState('');
   const createCaptcha = () =>
     new Promise((resolve) => {
-      fetchCaptcha(create)(width, height).then((newCaptCha) => {
+      fetchCaptcha(create)(card.width, card.height).then((newCaptCha) => {
         setCaptcha(newCaptCha.solution);
         resolve(newCaptCha);
       });
@@ -86,6 +87,9 @@ const SliderCaptcha = ({
         createCaptcha={createCaptcha}
         submitResponse={submitResponse}
         verified={verified}
+        anchor={anchor}
+        card={card}
+        challenge={challenge}
       />
     </div>
   );
@@ -96,8 +100,18 @@ SliderCaptcha.propTypes = {
   create: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   verify: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   variant: PropTypes.string,
-  width: PropTypes.number,
-  height: PropTypes.number,
+  anchor: PropTypes.shape({
+    width: PropTypes.number,
+    height: PropTypes.number,
+  }),
+  card: PropTypes.shape({
+    width: PropTypes.number,
+    height: PropTypes.number,
+  }),
+  challenge: PropTypes.shape({
+    width: PropTypes.number,
+    height: PropTypes.number,
+  }),
   text: PropTypes.shape({
     anchor: PropTypes.string,
     challenge: PropTypes.string,
@@ -109,8 +123,18 @@ SliderCaptcha.defaultProps = {
   create: 'captcha/create',
   verify: 'captcha/verify',
   variant: 'light',
-  width: 250,
-  height: 150,
+  anchor: {
+    width: 520,
+    height: 50,
+  },
+  card: {
+    width: 520,
+    height: 230,
+  },
+  challenge: {
+    width: 520,
+    height: 50,
+  },
   text: {
     anchor: 'I am human',
     challenge: 'Slide to finish the puzzle',
