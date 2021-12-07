@@ -48,7 +48,7 @@ const Card = ({
     return () => {
       isMounted.current = false;
     };
-  }, []);
+  }, [card]);
 
   return (
     <div

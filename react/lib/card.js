@@ -85,7 +85,7 @@ var Card = function Card(_ref) {
     return function () {
       isMounted.current = false;
     };
-  }, []);
+  }, [card]);
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: "scaptcha-card-container scaptcha-card-element",
     style: {
