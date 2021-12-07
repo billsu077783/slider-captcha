@@ -120,7 +120,8 @@ Card.propTypes = {
   }).isRequired,
   card: _propTypes["default"].shape({
     width: _propTypes["default"].number,
-    height: _propTypes["default"].number
+    height: _propTypes["default"].number,
+    padding: _propTypes["default"].number
   }).isRequired,
   challenge: _propTypes["default"].shape({
     widht: _propTypes["default"].number,

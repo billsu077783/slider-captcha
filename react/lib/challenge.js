@@ -57,6 +57,7 @@ var slider = {
     icon: /*#__PURE__*/_react["default"].createElement(_icons.FailureIcon, null)
   }
 };
+var SLIDER_WIDTH = 60;
 
 var Challenge = function Challenge(_ref) {
   var text = _ref.text,
@@ -98,7 +99,7 @@ var Challenge = function Challenge(_ref) {
 
 
   var scaleSliderPosition = function scaleSliderPosition(x) {
-    return 5 + 0.86 * x;
+    return container.padding + (container.width - container.padding * 2 - SLIDER_WIDTH) / (challenge.width - SLIDER_WIDTH) * x;
   };
 
   var handleStart = function handleStart(e) {
@@ -116,9 +117,9 @@ var Challenge = function Challenge(_ref) {
     var move = {
       x: (e.clientX || e.touches[0].clientX) - origin.x,
       y: (e.clientY || e.touches[0].clientY) - origin.y
-    };
-    if (move.x > 225 || move.x < 0) return; // Don't update if outside bounds of captcha
+    }; // Don't update if outside bounds of captcha
 
+    if (move.x > challenge.width - SLIDER_WIDTH || move.x < 0) return;
     setTrail({
       x: trail.x.concat([move.x]),
       y: trail.y.concat([move.y])
@@ -163,8 +164,7 @@ var Challenge = function Challenge(_ref) {
     style: {
       backgroundImage: "url('".concat(imageDataUrl(captcha.slider), "')"),
       left: "".concat(scaleSliderPosition(trail.x[trail.x.length - 1]), "px"),
-      marginLeft: '15px',
-      width: '60px',
+      width: "".concat(SLIDER_WIDTH, "px"),
       height: "".concat(container.height, "px")
     },
     onMouseDown: handleStart,
@@ -205,7 +205,7 @@ var Challenge = function Challenge(_ref) {
     className: "scaptcha-card-slider-control ".concat(sliderVariant.control, " scaptcha-card-element"),
     style: {
       left: "".concat(trail.x[trail.x.length - 1], "px"),
-      width: '60px',
+      width: "".concat(SLIDER_WIDTH, "px"),
       height: "".concat(challenge.height, "px")
     },
     onMouseDown: handleStart,
@@ -237,7 +237,8 @@ Challenge.propTypes = {
   }).isRequired,
   container: _propTypes["default"].shape({
     width: _propTypes["default"].number,
-    height: _propTypes["default"].number
+    height: _propTypes["default"].number,
+    padding: _propTypes["default"].number
   }).isRequired
 };
 var _default = Challenge;

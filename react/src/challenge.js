@@ -28,6 +28,8 @@ const slider = {
   },
 };
 
+const SLIDER_WIDTH = 60;
+
 const Challenge = ({
   text,
   captcha,
@@ -48,7 +50,11 @@ const Challenge = ({
   });
 
   // Converts distances along the control track to corresponding distances moved by the puzzle piece
-  const scaleSliderPosition = (x) => 5 + 0.86 * x;
+  const scaleSliderPosition = (x) =>
+    container.padding +
+    ((container.width - container.padding * 2 - SLIDER_WIDTH) /
+      (challenge.width - SLIDER_WIDTH)) *
+      x;
 
   const handleStart = (e) => {
     if (submittedResponse) return;
@@ -66,7 +72,8 @@ const Challenge = ({
       x: (e.clientX || e.touches[0].clientX) - origin.x,
       y: (e.clientY || e.touches[0].clientY) - origin.y,
     };
-    if (move.x > 225 || move.x < 0) return; // Don't update if outside bounds of captcha
+    // Don't update if outside bounds of captcha
+    if (move.x > challenge.width - SLIDER_WIDTH || move.x < 0) return;
     setTrail({
       x: trail.x.concat([move.x]),
       y: trail.y.concat([move.y]),
@@ -117,8 +124,7 @@ const Challenge = ({
         style={{
           backgroundImage: `url('${imageDataUrl(captcha.slider)}')`,
           left: `${scaleSliderPosition(trail.x[trail.x.length - 1])}px`,
-          marginLeft: '15px',
-          width: '60px',
+          width: `${SLIDER_WIDTH}px`,
           height: `${container.height}px`,
         }}
         onMouseDown={handleStart}
@@ -167,7 +173,7 @@ const Challenge = ({
           className={`scaptcha-card-slider-control ${sliderVariant.control} scaptcha-card-element`}
           style={{
             left: `${trail.x[trail.x.length - 1]}px`,
-            width: '60px',
+            width: `${SLIDER_WIDTH}px`,
             height: `${challenge.height}px`,
           }}
           onMouseDown={handleStart}
@@ -205,6 +211,7 @@ Challenge.propTypes = {
   container: PropTypes.shape({
     width: PropTypes.number,
     height: PropTypes.number,
+    padding: PropTypes.number,
   }).isRequired,
 };
 

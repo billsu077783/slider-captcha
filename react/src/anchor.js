@@ -68,6 +68,7 @@ Anchor.propTypes = {
   card: PropTypes.shape({
     width: PropTypes.number,
     height: PropTypes.number,
+    padding: PropTypes.number,
   }).isRequired,
   challenge: PropTypes.shape({
     width: PropTypes.number,

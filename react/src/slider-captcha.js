@@ -107,6 +107,7 @@ SliderCaptcha.propTypes = {
   card: PropTypes.shape({
     width: PropTypes.number,
     height: PropTypes.number,
+    padding: PropTypes.number,
   }),
   challenge: PropTypes.shape({
     width: PropTypes.number,
@@ -130,6 +131,7 @@ SliderCaptcha.defaultProps = {
   card: {
     width: 520,
     height: 230,
+    padding: 20,
   },
   challenge: {
     width: 520,
