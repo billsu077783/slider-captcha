@@ -11,8 +11,6 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _redux = require("redux");
-
 var _anchor = _interopRequireDefault(require("./anchor"));
 
 var _theme = _interopRequireDefault(require("./theme"));
@@ -36,21 +34,14 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var fetchCaptcha = function fetchCaptcha(create) {
-  return function (width, height) {
-    var _createStore = (0, _redux.createStore)(),
-        getState = _createStore.getState,
-        dispatch = _createStore.dispatch;
+  return function (width, height, controller, setController) {
+    if (controller) {
+      controller.abort();
+    }
 
-    var _getState = getState(),
-        controller = _getState.controller;
-
-    controller.abort();
     var newController = new window.AbortController();
     var signal = newController.signal;
-    dispatch({
-      type: 'SET_NEW_CONTROLLER',
-      payload: newController
-    });
+    setController(newController);
     return create instanceof Function ? create(width, height) // Use provided promise for getting background and slider
     : fetch(create, {
       // Use create as API URL for fetch
@@ -114,9 +105,14 @@ var SliderCaptcha = function SliderCaptcha(_ref) {
       captcha = _useState4[0],
       setCaptcha = _useState4[1];
 
+  var _useState5 = (0, _react.useState)(null),
+      _useState6 = _slicedToArray(_useState5, 2),
+      controller = _useState6[0],
+      setController = _useState6[1];
+
   var createCaptcha = function createCaptcha() {
     return new Promise(function (resolve) {
-      fetchCaptcha(create)(card.width, card.height).then(function (newCaptCha) {
+      fetchCaptcha(create)(card.width, card.height, controller, setController).then(function (newCaptCha) {
         setCaptcha(newCaptCha.solution);
         resolve(newCaptCha);
       });
