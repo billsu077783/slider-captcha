@@ -43,6 +43,7 @@ const Card = ({
 
   useEffect(() => {
     isMounted.current = true;
+    setCaptcha(false);
     cRef.current.refreshCaptcha();
 
     return () => {

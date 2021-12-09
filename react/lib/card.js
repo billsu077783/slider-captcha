@@ -81,6 +81,7 @@ var Card = function Card(_ref) {
 
   (0, _react.useEffect)(function () {
     isMounted.current = true;
+    setCaptcha(false);
     cRef.current.refreshCaptcha();
     return function () {
       isMounted.current = false;
