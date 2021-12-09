@@ -1,10 +1,20 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { createStore } from 'redux';
 import Anchor from './anchor';
 import Theme from './theme';
 
-const fetchCaptcha = (create) => (width, height) =>
-  create instanceof Function
+const fetchCaptcha = (create) => (width, height) => {
+  const { getState, dispatch } = createStore();
+
+  const { controller } = getState();
+  controller.abort();
+
+  const newController = new window.AbortController();
+  const { signal } = newController;
+  dispatch({ type: 'SET_NEW_CONTROLLER', payload: newController });
+
+  return create instanceof Function
     ? create(width, height) // Use provided promise for getting background and slider
     : fetch(create, {
         // Use create as API URL for fetch
@@ -17,7 +27,9 @@ const fetchCaptcha = (create) => (width, height) =>
           width,
           height,
         }),
+        signal,
       }).then((message) => message.json());
+};
 
 const fetchVerification = (verify) => (captcha, response, trail) =>
   verify instanceof Function

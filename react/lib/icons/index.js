@@ -3,10 +3,22 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+Object.defineProperty(exports, "LoadingIcon", {
+  enumerable: true,
+  get: function get() {
+    return _loading["default"];
+  }
+});
 Object.defineProperty(exports, "ArrowIcon", {
   enumerable: true,
   get: function get() {
     return _arrow["default"];
+  }
+});
+Object.defineProperty(exports, "SuccessIcon", {
+  enumerable: true,
+  get: function get() {
+    return _success["default"];
   }
 });
 Object.defineProperty(exports, "FailureIcon", {
@@ -15,22 +27,10 @@ Object.defineProperty(exports, "FailureIcon", {
     return _failure["default"];
   }
 });
-Object.defineProperty(exports, "LoadingIcon", {
-  enumerable: true,
-  get: function get() {
-    return _loading["default"];
-  }
-});
 Object.defineProperty(exports, "ReloadIcon", {
   enumerable: true,
   get: function get() {
     return _reload["default"];
-  }
-});
-Object.defineProperty(exports, "SuccessIcon", {
-  enumerable: true,
-  get: function get() {
-    return _success["default"];
   }
 });
 
