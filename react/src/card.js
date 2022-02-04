@@ -15,6 +15,7 @@ const Card = ({
 }) => {
   const [key, setKey] = useState(Math.random());
   const [captcha, setCaptcha] = useState(false);
+  const [current, setCurrent] = useState(card);
   const isMounted = useRef(false);
 
   useImperativeHandle(cRef, () => ({
@@ -41,10 +42,16 @@ const Card = ({
       });
     });
 
+  const isEqual = (...objects) =>
+    objects.every((obj) => JSON.stringify(obj) === JSON.stringify(objects[0]));
+
   useEffect(() => {
     isMounted.current = true;
-    setCaptcha(false);
-    cRef.current.refreshCaptcha();
+    if (!isEqual(card, current)) {
+      setCurrent(card);
+      setCaptcha(false);
+      cRef.current.refreshCaptcha();
+    }
 
     return () => {
       isMounted.current = false;

@@ -51,6 +51,11 @@ var Card = function Card(_ref) {
       captcha = _useState4[0],
       setCaptcha = _useState4[1];
 
+  var _useState5 = (0, _react.useState)(card),
+      _useState6 = _slicedToArray(_useState5, 2),
+      current = _useState6[0],
+      setCurrent = _useState6[1];
+
   var isMounted = (0, _react.useRef)(false);
   (0, _react.useImperativeHandle)(cRef, function () {
     return {
@@ -79,10 +84,25 @@ var Card = function Card(_ref) {
     });
   };
 
+  var isEqual = function isEqual() {
+    for (var _len = arguments.length, objects = new Array(_len), _key = 0; _key < _len; _key++) {
+      objects[_key] = arguments[_key];
+    }
+
+    return objects.every(function (obj) {
+      return JSON.stringify(obj) === JSON.stringify(objects[0]);
+    });
+  };
+
   (0, _react.useEffect)(function () {
     isMounted.current = true;
-    setCaptcha(false);
-    cRef.current.refreshCaptcha();
+
+    if (!isEqual(card, current)) {
+      setCurrent(card);
+      setCaptcha(false);
+      cRef.current.refreshCaptcha();
+    }
+
     return function () {
       isMounted.current = false;
     };

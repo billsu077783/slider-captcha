@@ -42,7 +42,7 @@ var fetchCaptcha = function fetchCaptcha(create) {
     var newController = new window.AbortController();
     var signal = newController.signal;
     setController(newController);
-    return create instanceof Function ? create(width, height) // Use provided promise for getting background and slider
+    return create instanceof Function ? create(width, height, signal) // Use provided promise for getting background and slider
     : fetch(create, {
       // Use create as API URL for fetch
       method: 'POST',
@@ -113,6 +113,7 @@ var SliderCaptcha = function SliderCaptcha(_ref) {
   var createCaptcha = function createCaptcha() {
     return new Promise(function (resolve) {
       fetchCaptcha(create)(card.width, card.height, controller, setController).then(function (newCaptCha) {
+        setController(null);
         setCaptcha(newCaptCha.solution);
         resolve(newCaptCha);
       });

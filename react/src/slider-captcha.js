@@ -13,7 +13,7 @@ const fetchCaptcha = (create) => (width, height, controller, setController) => {
   setController(newController);
 
   return create instanceof Function
-    ? create(width, height) // Use provided promise for getting background and slider
+    ? create(width, height, signal) // Use provided promise for getting background and slider
     : fetch(create, {
         // Use create as API URL for fetch
         method: 'POST',
@@ -70,6 +70,7 @@ const SliderCaptcha = ({
         controller,
         setController,
       ).then((newCaptCha) => {
+        setController(null);
         setCaptcha(newCaptCha.solution);
         resolve(newCaptCha);
       });
