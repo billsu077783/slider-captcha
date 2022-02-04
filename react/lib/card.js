@@ -51,7 +51,11 @@ var Card = function Card(_ref) {
       captcha = _useState4[0],
       setCaptcha = _useState4[1];
 
-  var _useState5 = (0, _react.useState)(card),
+  var _useState5 = (0, _react.useState)({
+    width: 0,
+    height: 0,
+    padding: 0
+  }),
       _useState6 = _slicedToArray(_useState5, 2),
       current = _useState6[0],
       setCurrent = _useState6[1];

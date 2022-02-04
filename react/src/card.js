@@ -15,7 +15,7 @@ const Card = ({
 }) => {
   const [key, setKey] = useState(Math.random());
   const [captcha, setCaptcha] = useState(false);
-  const [current, setCurrent] = useState(card);
+  const [current, setCurrent] = useState({ width: 0, height: 0, padding: 0 });
   const isMounted = useRef(false);
 
   useImperativeHandle(cRef, () => ({
