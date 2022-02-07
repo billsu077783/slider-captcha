@@ -156,8 +156,9 @@ const darkTheme = `.scaptcha-icon-light {
   margin-top: 1px;
   /* Animation */
   animation-name: loading;
-  animation-duration: 1000ms;
+  animation-duration: 500ms;
   animation-iteration-count: infinite;
+  animation-timing-function: linear;
   transform-origin: 50% 50%;
   display: inline-block;
 }

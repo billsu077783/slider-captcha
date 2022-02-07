@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const ReloadIcon = (loading) => (
+const ReloadIcon = ({ loading }) => (
   <div
     className={loading ? 'loading-icon-container' : 'scaptcha-icon-container'}
   >
@@ -30,5 +31,9 @@ const ReloadIcon = (loading) => (
     </svg>
   </div>
 );
+
+ReloadIcon.propTypes = {
+  loading: PropTypes.bool.isRequired,
+};
 
 export default ReloadIcon;

@@ -7,9 +7,12 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var ReloadIcon = function ReloadIcon(loading) {
+var ReloadIcon = function ReloadIcon(_ref) {
+  var loading = _ref.loading;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: loading ? 'loading-icon-container' : 'scaptcha-icon-container'
   }, /*#__PURE__*/_react["default"].createElement("svg", {
@@ -33,5 +36,8 @@ var ReloadIcon = function ReloadIcon(loading) {
   })));
 };
 
+ReloadIcon.propTypes = {
+  loading: _propTypes["default"].bool.isRequired
+};
 var _default = ReloadIcon;
 exports["default"] = _default;
