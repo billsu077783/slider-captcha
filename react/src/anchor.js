@@ -8,6 +8,7 @@ const Anchor = ({
   createCaptcha,
   submitResponse,
   verified,
+  refreshing,
   anchor,
   card,
   challenge,
@@ -47,7 +48,7 @@ const Anchor = ({
           >
             {text.anchor}
           </div>
-          <ReloadIcon />
+          <ReloadIcon loading={refreshing} />
         </div>
       )}
     </div>
@@ -61,6 +62,7 @@ Anchor.propTypes = {
     challenge: PropTypes.string,
   }).isRequired,
   verified: PropTypes.bool.isRequired,
+  refreshing: PropTypes.bool.isRequired,
   anchor: PropTypes.shape({
     width: PropTypes.number,
     height: PropTypes.number,

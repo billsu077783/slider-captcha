@@ -59,17 +59,20 @@ const SliderCaptcha = ({
   challenge,
   text,
 }) => {
+  const [refreshing, setRefreshing] = useState(false);
   const [verified, setVerified] = useState(false);
   const [captcha, setCaptcha] = useState('');
   const [controller, setController] = useState(null);
   const createCaptcha = () =>
     new Promise((resolve) => {
+      setRefreshing(true);
       fetchCaptcha(create)(
         card.width,
         card.height,
         controller,
         setController,
       ).then((newCaptCha) => {
+        setRefreshing(false);
         setController(null);
         setCaptcha(newCaptCha.solution);
         resolve(newCaptCha);
@@ -104,6 +107,7 @@ const SliderCaptcha = ({
         createCaptcha={createCaptcha}
         submitResponse={submitResponse}
         verified={verified}
+        refreshing={refreshing}
         anchor={anchor}
         card={card}
         challenge={challenge}

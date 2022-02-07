@@ -97,22 +97,29 @@ var SliderCaptcha = function SliderCaptcha(_ref) {
 
   var _useState = (0, _react.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
-      verified = _useState2[0],
-      setVerified = _useState2[1];
+      refreshing = _useState2[0],
+      setRefreshing = _useState2[1];
 
-  var _useState3 = (0, _react.useState)(''),
+  var _useState3 = (0, _react.useState)(false),
       _useState4 = _slicedToArray(_useState3, 2),
-      captcha = _useState4[0],
-      setCaptcha = _useState4[1];
+      verified = _useState4[0],
+      setVerified = _useState4[1];
 
-  var _useState5 = (0, _react.useState)(null),
+  var _useState5 = (0, _react.useState)(''),
       _useState6 = _slicedToArray(_useState5, 2),
-      controller = _useState6[0],
-      setController = _useState6[1];
+      captcha = _useState6[0],
+      setCaptcha = _useState6[1];
+
+  var _useState7 = (0, _react.useState)(null),
+      _useState8 = _slicedToArray(_useState7, 2),
+      controller = _useState8[0],
+      setController = _useState8[1];
 
   var createCaptcha = function createCaptcha() {
     return new Promise(function (resolve) {
+      setRefreshing(true);
       fetchCaptcha(create)(card.width, card.height, controller, setController).then(function (newCaptCha) {
+        setRefreshing(false);
         setController(null);
         setCaptcha(newCaptCha.solution);
         resolve(newCaptCha);
@@ -147,6 +154,7 @@ var SliderCaptcha = function SliderCaptcha(_ref) {
     createCaptcha: createCaptcha,
     submitResponse: submitResponse,
     verified: verified,
+    refreshing: refreshing,
     anchor: anchor,
     card: card,
     challenge: challenge

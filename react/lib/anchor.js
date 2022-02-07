@@ -26,6 +26,7 @@ var Anchor = function Anchor(_ref) {
       createCaptcha = _ref.createCaptcha,
       submitResponse = _ref.submitResponse,
       verified = _ref.verified,
+      refreshing = _ref.refreshing,
       anchor = _ref.anchor,
       card = _ref.card,
       challenge = _ref.challenge;
@@ -56,7 +57,9 @@ var Anchor = function Anchor(_ref) {
       width: "".concat(anchor.width, "px"),
       height: "".concat(anchor.height, "px")
     }
-  }, text.anchor), /*#__PURE__*/_react["default"].createElement(_icons.ReloadIcon, null)));
+  }, text.anchor), /*#__PURE__*/_react["default"].createElement(_icons.ReloadIcon, {
+    loading: refreshing
+  })));
 };
 
 Anchor.propTypes = {
@@ -67,6 +70,7 @@ Anchor.propTypes = {
     challenge: _propTypes["default"].string
   }).isRequired,
   verified: _propTypes["default"].bool.isRequired,
+  refreshing: _propTypes["default"].bool.isRequired,
   anchor: _propTypes["default"].shape({
     width: _propTypes["default"].number,
     height: _propTypes["default"].number

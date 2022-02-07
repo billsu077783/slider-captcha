@@ -156,7 +156,7 @@ const darkTheme = `.scaptcha-icon-light {
   margin-top: 1px;
   /* Animation */
   animation-name: loading;
-  animation-duration: 500ms;
+  animation-duration: 1000ms;
   animation-iteration-count: infinite;
   transform-origin: 50% 50%;
   display: inline-block;
