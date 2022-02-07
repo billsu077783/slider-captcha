@@ -15,6 +15,7 @@ const Anchor = ({
 }) => {
   const cardRef = useRef();
   const refresh = () => {
+    if (refreshing) return;
     cardRef.current.refreshCaptcha();
   };
   return (

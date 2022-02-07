@@ -33,6 +33,7 @@ var Anchor = function Anchor(_ref) {
   var cardRef = (0, _react.useRef)();
 
   var refresh = function refresh() {
+    if (refreshing) return;
     cardRef.current.refreshCaptcha();
   };
 
