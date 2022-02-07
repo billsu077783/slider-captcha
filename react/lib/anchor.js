@@ -47,7 +47,7 @@ var Anchor = function Anchor(_ref) {
     style: {
       width: "".concat(anchor.width, "px"),
       height: "".concat(anchor.height, "px"),
-      marginTop: "".concat(card.height + challenge.height + 20, "px")
+      marginTop: "-".concat(anchor.height, "px")
     },
     onClick: refresh
   }, /*#__PURE__*/_react["default"].createElement("div", {

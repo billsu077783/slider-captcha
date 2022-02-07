@@ -148,6 +148,28 @@ const darkTheme = `.scaptcha-icon-light {
   margin-top: 1px;
 }
 
+.loading-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 1px;
+  margin-top: 1px;
+  /* Animation */
+  animation-name: loading;
+  animation-duration: 500ms;
+  animation-iteration-count: infinite;
+  transform-origin: 50% 50%;
+  display: inline-block;
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 .scaptcha-hidden {
   background: none;
   top: 0;

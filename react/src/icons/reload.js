@@ -1,7 +1,9 @@
 import React from 'react';
 
-const ReloadIcon = () => (
-  <div className="scaptcha-icon-container">
+const ReloadIcon = (loading) => (
+  <div
+    className={loading ? 'loading-icon-container' : 'scaptcha-icon-container'}
+  >
     <svg
       className="scaptcha-icon-light"
       xmlns="http://www.w3.org/2000/svg"

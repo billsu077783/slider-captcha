@@ -34,7 +34,7 @@ const Anchor = ({
           style={{
             width: `${anchor.width}px`,
             height: `${anchor.height}px`,
-            marginTop: `${card.height + challenge.height + 20}px`,
+            marginTop: `-${anchor.height}px`,
           }}
           onClick={refresh}
         >

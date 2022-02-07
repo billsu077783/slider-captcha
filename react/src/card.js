@@ -28,6 +28,9 @@ const Card = ({
         }, 300);
       });
     },
+    clearCaptcha: () => {
+      setCaptcha(false);
+    },
   }));
 
   const completeCaptcha = (response, trail) =>

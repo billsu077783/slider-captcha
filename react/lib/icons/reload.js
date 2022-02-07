@@ -9,9 +9,9 @@ var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var ReloadIcon = function ReloadIcon() {
+var ReloadIcon = function ReloadIcon(loading) {
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: "scaptcha-icon-container"
+    className: loading ? 'loading-icon-container' : 'scaptcha-icon-container'
   }, /*#__PURE__*/_react["default"].createElement("svg", {
     className: "scaptcha-icon-light",
     xmlns: "http://www.w3.org/2000/svg",

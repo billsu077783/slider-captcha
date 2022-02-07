@@ -71,6 +71,9 @@ var Card = function Card(_ref) {
             setCaptcha(newCaptcha);
           }, 300);
         });
+      },
+      clearCaptcha: function clearCaptcha() {
+        setCaptcha(false);
       }
     };
   });
