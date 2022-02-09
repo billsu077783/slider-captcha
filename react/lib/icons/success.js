@@ -20,7 +20,7 @@ var SuccessIcon = function SuccessIcon() {
     width: "13"
   }, /*#__PURE__*/_react["default"].createElement("path", {
     d: "M3.37.473L1.187 2.654.098 1.562l.409-.409.68.682L2.96.063z",
-    fill: "#c6c6c6"
+    fill: "#f0f0f0"
   })), /*#__PURE__*/_react["default"].createElement("svg", {
     className: "scaptcha-icon-dark",
     xmlns: "http://www.w3.org/2000/svg",
@@ -29,7 +29,7 @@ var SuccessIcon = function SuccessIcon() {
     width: "13"
   }, /*#__PURE__*/_react["default"].createElement("path", {
     d: "M3.37.473L1.187 2.654.098 1.562l.409-.409.68.682L2.96.063z",
-    fill: "#c6c6c6"
+    fill: "#f0f0f0"
   })));
 };
 

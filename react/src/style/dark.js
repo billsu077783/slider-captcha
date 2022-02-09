@@ -20,7 +20,7 @@ const darkTheme = `.scaptcha-icon-light {
   display: flex;
   align-items: center;
   justify-content: right;
-  color: #c6c6c6;
+  color: #f0f0f0;
   transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   margin-right: 5px;
   cursor: default;
@@ -66,7 +66,7 @@ const darkTheme = `.scaptcha-icon-light {
 }
 
 .scaptcha-card-slider-control-default {
-  background-color: #242222;
+  background-color: #355f2d;
   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
 }
 
