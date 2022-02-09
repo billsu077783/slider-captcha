@@ -77,7 +77,7 @@ const darkTheme = `.scaptcha-icon-light {
 }
 
 .scaptcha-card-slider-control-active {
-  background-color: #0889e4;
+  background-color: #355f2d;
 }
 
 .scaptcha-card-slider-control-success {
@@ -113,7 +113,7 @@ const darkTheme = `.scaptcha-icon-light {
 
 .scaptcha-card-slider-track-default,
 .scaptcha-card-slider-track-active {
-  background-color: #3caeff;
+  background-color: #708a6b;
 }
 
 .scaptcha-card-slider-track-success {
